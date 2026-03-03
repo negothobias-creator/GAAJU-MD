@@ -25,7 +25,7 @@ module.exports = {
         return;
       }
       
-      const packname = args.join(' ') || 'GAAJU AI';
+      const packname = args.join(' ') || 'NEGO AI';
 
       try {
         const stickerBuffer = await downloadMediaMessage(

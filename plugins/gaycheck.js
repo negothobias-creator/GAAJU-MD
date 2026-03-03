@@ -8,15 +8,17 @@ module.exports = {
   usage: '.gaycheck (reply/mention someone)',
 
   async handler(sock, message, args, context = {}) {
-    const { chatId, channelInfo } = context;
+    const { chatId } = context;
+    const channelInfo = context.channelInfo || {};
     const ownerJids = (owners || []).map(n => n.includes('@') ? n : `${n}@s.whatsapp.net`);
     const mentioned = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
     const quoted = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+    const quotedParticipant = message.message?.extendedTextMessage?.contextInfo?.participant;
     const sender = message.key.participant || message.key.remoteJid;
     let target = null;
 
     if (mentioned && mentioned.length) target = mentioned[0];
-    else if (quoted) target = quoted.sender;
+    else if (quotedParticipant) target = quotedParticipant;
     else {
       await sock.sendMessage(chatId, { text: '❌ Please mention someone or reply to their message.' }, { quoted: message });
       return;

@@ -1,9 +1,9 @@
 <h1 align="center"> 🤖 MULTI DEVICE WHATSAPP BOT </h1>
 
 <div align="center"> 
-  <a href="https://youtube.com/@Xchristech"> 
-    <img src="https://github.com/Xnegotech1/NEGO-TECH/blob/main/assets/bot_image.jpg" alt="GAAJU AI" height="300"> 
-  </a> 
+   <a href="https://youtube.com/@Xchristech"> 
+      <img src="https://github.com/Xnegotech1/NEGO-TECH/blob/main/assets/bot_image.jpg" alt="NEGO AI" height="300"> 
+   </a> 
 </div>
 
 <div align="center">
@@ -169,7 +169,7 @@ Click the button below to fork the Mega Md repository to your GitHub account:
 
 ## About
 
-The GAAJU AI WhatsApp Bot assists group admins by providing them with tools to efficiently manage large WhatsApp groups. The bot uses the Baileys library to interact with the WhatsApp Web API and supports multi-device features.
+The NEGO AI WhatsApp Bot assists group admins by providing them with tools to efficiently manage large WhatsApp groups. The bot uses the Baileys library to interact with the WhatsApp Web API and supports multi-device features.
 
 It is lightweight and can be easily customized to add more commands as per your requirements. The bot runs in a Node.js environment and provides QR code-based authentication to link your WhatsApp account.
 

@@ -18,7 +18,7 @@
     "install:panel": "npm install --legacy-peer-deps"
   },
   "keywords": [ "termux-whatsapp-bot", "whatsapp-bot", "whatsapp-api",
-    "baileys-bot", "whatsApp", "gaaju-bot", "nego-tech", "multi-device", "gaaju-ai"
+    "baileys-bot", "whatsApp", "gaaju-bot", "nego-tech", "multi-device", "nego-ai"
   ],
   "homepage": "https://github.com/Xnegotech1/NEGO-TECH",
   "repository": {

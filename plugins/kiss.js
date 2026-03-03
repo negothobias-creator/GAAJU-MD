@@ -9,16 +9,18 @@ module.exports = {
   usage: '.kiss @user (or reply)',
 
   async handler(sock, message, args, context = {}) {
-    const { chatId, channelInfo } = context;
+    const { chatId } = context;
+    const channelInfo = context.channelInfo || {};
     const ownerJids = (owners || []).map(n => n.includes('@') ? n : `${n}@s.whatsapp.net`);
     const sender = message.key.participant || message.key.remoteJid;
 
     const mentioned = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
     const quoted = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+    const quotedParticipant = message.message?.extendedTextMessage?.contextInfo?.participant;
     let target = null;
 
     if (mentioned && mentioned.length) target = mentioned[0];
-    else if (quoted) target = quoted.sender;
+    else if (quotedParticipant) target = quotedParticipant;
 
     if (!target) {
       await sock.sendMessage(chatId, { text: '❌ Please mention someone or reply to their message to kiss them!' }, { quoted: message });
@@ -36,8 +38,8 @@ module.exports = {
     }
 
     try {
-      const res = await axios.get('https://api.some-random-api.com/animu/kiss');
-      const link = res.data?.link;
+      const res = await axios.get('https://api.waifu.pics/sfw/kiss');
+      const link = res.data?.url || res.data?.link;
       if (link) {
         const caption = `@${sender.split('@')[0]} kisses @${target.split('@')[0]} 💋`;
         await sock.sendMessage(chatId, {

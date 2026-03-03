@@ -1,49 +1,34 @@
-const fs = require('fs');
-const path = require('path');
-
-const DATA_FILE = path.join(__dirname, '../data/join.json');
-
-function readData() {
-  try {
-    if (!fs.existsSync(DATA_FILE)) return { joinRequests: [] };
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')) || { joinRequests: [] };
-  } catch (e) {
-    return { joinRequests: [] };
-  }
-}
-
-function writeData(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-}
+const owners = require('../data/owner.json');
 
 module.exports = {
   command: 'join',
   aliases: [],
   category: 'general',
-  description: 'Record a join request for this chat or notify bot to join',
-  usage: '.join (optional reason)',
+  description: 'Request the bot to join a group (not record events).',
+  usage: '.join <invite link or group id>',
 
   async handler(sock, message, args, context = {}) {
     const chatId = context.chatId || message.key.remoteJid;
     const sender = message.key.participant || message.key.remoteJid;
-    const reason = args.join(' ').trim() || null;
+    const invite = args.join(' ').trim() || null;
 
-    const data = readData();
-    data.joinRequests = data.joinRequests || [];
+    const ownerJids = (owners || []).map(n => n.includes('@') ? n : `${n}@s.whatsapp.net`);
 
-    data.joinRequests.push({
-      chatId,
-      requester: sender,
-      reason,
-      timestamp: Date.now()
-    });
+    if (!invite) {
+      await sock.sendMessage(chatId, { text: '❌ Please provide a group invite link or group id to request the bot to join.' }, { quoted: message });
+      return;
+    }
+
+    const notifyText = `📩 Join request\nRequester: @${sender.split('@')[0]}\nInvite: ${invite}`;
 
     try {
-      writeData(data);
-      await sock.sendMessage(chatId, { text: '✅ Join request recorded.' }, { quoted: message });
+      for (const owner of ownerJids) {
+        await sock.sendMessage(owner, { text: notifyText, mentions: [sender] });
+      }
+      await sock.sendMessage(chatId, { text: '✅ Join request sent to the bot owner(s). They will add me if approved.' }, { quoted: message });
     } catch (err) {
       console.error('join plugin error:', err);
-      await sock.sendMessage(chatId, { text: '❌ Failed to record join request.' }, { quoted: message });
+      await sock.sendMessage(chatId, { text: '❌ Failed to send join request to owner(s).' }, { quoted: message });
     }
   }
 };

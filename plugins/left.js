@@ -1,46 +1,37 @@
-const fs = require('fs');
-const path = require('path');
-
-const DATA_FILE = path.join(__dirname, '../data/left.json');
-
-function readData() {
-  try {
-    if (!fs.existsSync(DATA_FILE)) return { leftEvents: [] };
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')) || { leftEvents: [] };
-  } catch (e) {
-    return { leftEvents: [] };
-  }
-}
-
-function writeData(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-}
+const owners = require('../data/owner.json');
 
 module.exports = {
   command: 'left',
   aliases: ['leave', 'leftchat'],
   category: 'general',
-  description: 'Record a left/leave event for this chat or a mentioned chat',
+  description: 'Make the bot leave the current group (no event recording).',
   usage: '.left',
 
   async handler(sock, message, args, context = {}) {
     const chatId = context.chatId || message.key.remoteJid;
     const sender = message.key.participant || message.key.remoteJid;
-    const targetArg = args[0];
+    const isGroup = (chatId || '').endsWith('@g.us');
 
-    const target = targetArg ? (targetArg.includes('@') ? targetArg : `${targetArg}@s.whatsapp.net`) : chatId;
-
-    const data = readData();
-    data.leftEvents = data.leftEvents || [];
-
-    data.leftEvents.push({ chatId: target, leftBy: sender, timestamp: Date.now() });
+    if (!isGroup) {
+      await sock.sendMessage(chatId, { text: '❌ This command can only be used inside a group to ask the bot to leave.' }, { quoted: message });
+      return;
+    }
 
     try {
-      writeData(data);
-      await sock.sendMessage(chatId, { text: `✅ Recorded left event for ${target.split('@')[0]}` }, { quoted: message });
+      if (typeof sock.groupLeave === 'function') {
+        await sock.groupLeave(chatId);
+      } else {
+        // notify owners to remove the bot from the group
+        const ownerJids = (owners || []).map(n => n.includes('@') ? n : `${n}@s.whatsapp.net`);
+        const notifyText = `📩 Leave request\nRequester: @${sender.split('@')[0]}\nGroup: ${chatId}`;
+        for (const owner of ownerJids) {
+          await sock.sendMessage(owner, { text: notifyText, mentions: [sender] });
+        }
+        await sock.sendMessage(chatId, { text: '✅ Requested the bot owner(s) to remove me from this group.' }, { quoted: message });
+      }
     } catch (err) {
       console.error('left plugin error:', err);
-      await sock.sendMessage(chatId, { text: '❌ Failed to record left event.' }, { quoted: message });
+      await sock.sendMessage(chatId, { text: '❌ Failed to leave the group.' }, { quoted: message });
     }
   }
 };
