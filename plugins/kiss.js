@@ -1,3 +1,4 @@
+const owners = require('../data/owner.json');
 const axios = require('axios');
 
 module.exports = {
@@ -9,23 +10,28 @@ module.exports = {
 
   async handler(sock, message, args, context = {}) {
     const { chatId, channelInfo } = context;
+    const ownerJids = (owners || []).map(n => n.includes('@') ? n : `${n}@s.whatsapp.net`);
     const sender = message.key.participant || message.key.remoteJid;
 
     const mentioned = message.message?.extendedTextMessage?.contextInfo?.mentionedJid;
     const quoted = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
-    let target;
+    let target = null;
 
-    if (mentioned && mentioned.length) {
-      target = mentioned[0];
-    } else if (quoted) {
-      target = quoted.sender;
-    }
+    if (mentioned && mentioned.length) target = mentioned[0];
+    else if (quoted) target = quoted.sender;
 
     if (!target) {
-      await sock.sendMessage(chatId, {
-        text: '❌ Please mention someone or reply to their message to kiss them!',
-        ...channelInfo
-      }, { quoted: message });
+      await sock.sendMessage(chatId, { text: '❌ Please mention someone or reply to their message to kiss them!' }, { quoted: message });
+      return;
+    }
+
+    if (target === sender) {
+      await sock.sendMessage(chatId, { text: '❌ You cannot kiss yourself.' }, { quoted: message });
+      return;
+    }
+
+    if (ownerJids.includes(target)) {
+      await sock.sendMessage(chatId, { text: '❌ You cannot perform this action on the bot owner.' }, { quoted: message });
       return;
     }
 
@@ -45,10 +51,7 @@ module.exports = {
       }
     } catch (err) {
       console.error('Error in kiss command:', err);
-      await sock.sendMessage(chatId, {
-        text: '❌ Failed to fetch a kiss animation. Try again later!',
-        ...channelInfo
-      }, { quoted: message });
+      await sock.sendMessage(chatId, { text: '❌ Failed to fetch a kiss animation. Try again later!' }, { quoted: message });
     }
   }
 };

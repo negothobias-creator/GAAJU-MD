@@ -45,18 +45,7 @@ module.exports = {
         text += `   ↳ Status: ${errorText}\n\n`;
       });
 
-      await sock.sendMessage(chatId, {
-        text: text.trim(),
-        contextInfo: {
-          forwardingScore: 999,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363406588763460@newsletter',
-            newsletterName: 'NEGO-TECH PERFORMANCE',
-            serverMessageId: -1
-          }
-        }
-      }, { quoted: message });
+      await sock.sendMessage(chatId, { text: text.trim() }, { quoted: message });
 
     } catch (error) {
       console.error('Error in perf command:', error);

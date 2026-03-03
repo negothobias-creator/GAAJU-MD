@@ -2,17 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const isOwnerOrSudo = require('../lib/isOwner');
 
-const channelInfo = {
-  contextInfo: {
-    forwardingScore: 999,
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: '120363406588763460@newsletter',
-      newsletterName: 'NEGO-TECH',
-      serverMessageId: -1
-    }
-  }
-};
+const channelInfo = {};
 
 module.exports = {
   command: 'clearsession',

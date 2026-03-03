@@ -10,15 +10,7 @@ module.exports = {
   async handler(sock, message, args, context = {}) {
     const { chatId } = context;
 
-    const forwardInfo = {
-      forwardingScore: 1,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363406588763460@newsletter',
-        newsletterName: 'NEGO-TECH',
-        serverMessageId: -1
-      }
-    };
+    const forwardInfo = {};
 
     let query = args.join('').trim();
     if (!query) {

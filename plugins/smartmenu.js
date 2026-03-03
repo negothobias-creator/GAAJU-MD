@@ -133,16 +133,7 @@ module.exports = {
 
       const messageOptions = {
         image: thumbnail,
-        caption: menuText,
-        contextInfo: {
-          forwardingScore: 1,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363406588763460@newsletter',
-            newsletterName: settings.botName || 'NEGO-TECH',
-            serverMessageId: -1
-          }
-        }
+        caption: menuText
       };
 
       await sock.sendMessage(chatId, messageOptions, { quoted: message });

@@ -21,17 +21,7 @@ if (!HAS_DB && !fs.existsSync(configPath)) {
     }, null, 2));
 }
 
-const channelInfo = {
-    contextInfo: {
-        forwardingScore: 1,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363406588763460@newsletter',
-            newsletterName: 'NEGO-TECH',
-            serverMessageId: -1
-        }
-    }
-};
+const channelInfo = {};
 
 async function readConfig() {
     try {

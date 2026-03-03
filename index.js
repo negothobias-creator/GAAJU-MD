@@ -341,12 +341,7 @@ async function startChrisDev() {
                             text: '❌ An error occurred while processing your message.',
                             contextInfo: {
                                 forwardingScore: 1,
-                                isForwarded: true,
-                                forwardedNewsletterMessageInfo: {
-                                    newsletterJid: '120363406588763460@newsletter',
-                                    newsletterName: 'NEGO-TECH',
-                                    serverMessageId: -1
-                                }
+                                isForwarded: true
                             }
                         }).catch(console.error);
                     }
@@ -480,18 +475,13 @@ async function startChrisDev() {
                     const botNumber = ChrisDev.user.id.split(':')[0] + '@s.whatsapp.net';
                     const ghostStatus = (ghostMode && ghostMode.enabled) ? '\n👻 Stealth Mode: ACTIVE' : '';
                     
-                    await ChrisDev.sendMessage(botNumber, {
-                        text: `🤖 Bot Connected Successfully!\n\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Online and Ready!${ghostStatus}\n\n✅Make sure to join below channel`,
-                        contextInfo: {
-                            forwardingScore: 1,
-                            isForwarded: true,
-                            forwardedNewsletterMessageInfo: {
-                                newsletterJid: '120363406588763460@newsletter',
-                                newsletterName: 'NEGO-TECH',
-                                serverMessageId: -1
+                        await ChrisDev.sendMessage(botNumber, {
+                            text: `🤖 Bot Connected Successfully!\n\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Online and Ready!${ghostStatus}`,
+                            contextInfo: {
+                                forwardingScore: 1,
+                                isForwarded: true
                             }
-                        }
-                    });
+                        });
                 } catch (error) {
                     printLog('error', `Failed to send connection message: ${error.message}`);
                 }
