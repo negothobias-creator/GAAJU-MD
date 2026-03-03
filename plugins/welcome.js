@@ -12,7 +12,7 @@ module.exports = {
   adminOnly: true,
   
   async handler(sock, message, args, context) {
-    const { chatId, channelInfo } = context;
+    const { chatId } = context;
     
     const matchText = args.join(' ');
     await handleWelcome(sock, chatId, message, matchText);
@@ -29,17 +29,7 @@ async function handleJoinEvent(sock, id, participants) {
   const groupName = groupMetadata.subject;
   const groupDesc = groupMetadata.desc || 'No description available';
 
-  const channelInfo = {
-    contextInfo: {
-      forwardingScore: 1,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363406588763460@newsletter',
-        newsletterName: 'GAAJU MD',
-        serverMessageId: -1
-      }
-    }
-  };
+
 
   for (const participant of participants) {
     try {
@@ -80,7 +70,7 @@ async function handleJoinEvent(sock, id, participants) {
           hour12: true
         });
         
-        finalMessage = `╭╼━≪•𝙽𝙴𝚆 𝙼𝙴𝙼𝙱𝙴𝚁•≫━╾╮\n┃𝚆𝙴𝙻𝙲𝙾𝙼𝙴: @${displayName} 👋\n┃Member count: #${groupMetadata.participants.length}\n┃𝚃𝙸𝙼𝙴: ${timeString}⏰\n╰━━━━━━━━━━━━━━━╯\n\n*@${displayName}* Welcome to *${groupName}*! 🎉\n*Group 𝙳𝙴𝚂𝙲𝚁𝙸𝙿𝚃𝙸𝙾𝙽*\n${groupDesc}\n\n> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ GAAJU-MD*`;
+        finalMessage = `╭╼━≪•𝙽𝙴𝚆 𝙼𝙴𝙼𝙱𝙴𝚁•≫━╾╮\n┃𝚆𝙴𝙻𝙲𝙾𝙼𝙴: @${displayName} 👋\n┃Member count: #${groupMetadata.participants.length}\n┃𝚃𝙸𝙼𝙴: ${timeString}⏰\n╰━━━━━━━━━━━━━━━╯\n\n*@${displayName}* Welcome to *${groupName}*! 🎉\n*Group 𝙳𝙴𝚂𝙲𝚁𝙸𝙿𝚃𝙸𝙾𝙽*\n${groupDesc}\n\n> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ NEGO-TECH*`;
       }
       
       try {
@@ -103,8 +93,7 @@ async function handleJoinEvent(sock, id, participants) {
           await sock.sendMessage(id, {
             image: imageBuffer,
             caption: finalMessage,
-            mentions: [participantString],
-            ...channelInfo
+            mentions: [participantString]
           });
           continue;
         }
@@ -114,8 +103,7 @@ async function handleJoinEvent(sock, id, participants) {
       
       await sock.sendMessage(id, {
         text: finalMessage,
-        mentions: [participantString],
-        ...channelInfo
+        mentions: [participantString]
       });
     } catch (error) {
       console.error('Error sending welcome message:', error);
@@ -134,8 +122,7 @@ async function handleJoinEvent(sock, id, participants) {
       
       await sock.sendMessage(id, {
         text: fallbackMessage,
-        mentions: [participantString],
-        ...channelInfo
+        mentions: [participantString]
       });
     }
   }

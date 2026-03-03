@@ -2,17 +2,17 @@
 
 <div align="center"> 
   <a href="https://youtube.com/@Xchristech"> 
-    <img src="https://github.com/Xchristech2/GAAJU-MD/blob/main/assets/bot_image.jpg" alt="GAAJU AI" height="300"> 
+    <img src="https://github.com/Xnegotech1/NEGO-TECH/blob/main/assets/bot_image.jpg" alt="GAAJU AI" height="300"> 
   </a> 
 </div>
 
 <div align="center">
 
-<img src="https://komarev.com/ghpvc/?username=Xchristech2 &label=Profile+Views&color=success&style=flat-square" />
-<img src="https://img.shields.io/github/stars/Xchristech2/GAAJU-MD?color=blue&style=yellow-square" />
-<img src="https://img.shields.io/github/forks/Xchristech2/GAAJU-MD?color=ff00ff&style=flat-square" />
-<img src="https://img.shields.io/github/repo-size/Xchristech2/GAAJU-MD?color=success&style=flat-square" />
-<img src="https://img.shields.io/github/last-commit/Xchristech2/GAAJU-MD?color=yellow&style=flat-square" />
+<img src="https://komarev.com/ghpvc/?username=Xnegotech1 &label=Profile+Views&color=success&style=flat-square" />
+<img src="https://img.shields.io/github/stars/Xnegotech1/NEGO-TECH?color=blue&style=yellow-square" />
+<img src="https://img.shields.io/github/forks/Xnegotech1/NEGO-TECH?color=ff00ff&style=flat-square" />
+<img src="https://img.shields.io/github/repo-size/Xnegotech1/NEGO-TECH?color=success&style=flat-square" />
+<img src="https://img.shields.io/github/last-commit/Xnegotech1/NEGO-TECH?color=yellow&style=flat-square" />
 <a href="https://chat.whatsapp.com/HhuLiSRKTzdCP4NjCXkt21">
     <img src="https://img.shields.io/badge/Join%20WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" alt="WhatsApp group"/>
 </a>
@@ -32,7 +32,7 @@
 Click the button below to fork the Mega Md repository to your GitHub account:
 
 <div align="center">
-  <a href="https://github.com/Xchristech2/GAAJU-MD/fork">
+  <a href="https://github.com/Xnegotech1/NEGO-TECH/fork">
     <img src="https://img.shields.io/badge/Fork-Repo-orange?style=for-the-badge" alt="Fork the repository"/>
   </a>
 </div>
@@ -73,7 +73,7 @@ Click the button below to fork the Mega Md repository to your GitHub account:
 1. [Sign Up on Heroku](https://signup.heroku.com/) if you haven’t already.
 2. Click the button below to deploy directly In Heroku:
    <br>
-   <a href='https://heroku.com/deploy?template=https://github.com/Xchristech2/GAAJU-MD/Bypass' target="_blank">
+   <a href='https://heroku.com/deploy?template=https://github.com/Xnegotech1/NEGO-TECH/Bypass' target="_blank">
       <img alt='Deploy In Heroku' src='https://img.shields.io/badge/-DEPLOY%20NOW-purple?style=for-the-badge&logo=heroku&logoColor=white'/>
    </a>
 
@@ -105,7 +105,7 @@ Click the button below to fork the Mega Md repository to your GitHub account:
 1. [Sign Up on Replit](https://repl.it) if you haven’t already.
 2. Click the button below to deploy using Replit:
    <br>
-   <a href='https://repl.it/github/Xchristech2/GAAJU-MD' target="_blank">
+   <a href='https://repl.it/github/Xnegotech1/NEGO-TECH' target="_blank">
       <img alt='Deploy In Replit' src='https://img.shields.io/badge/-DEPLOY-orange?style=for-the-badge&logo=replit&logoColor=white'/>
    </a>
 
@@ -192,39 +192,39 @@ proot-distro login ubuntu
 apt update && apt upgrade -y && apt install -y git ffmpeg build-essential libvips-dev curl webp nodejs npm
 ```
 ```
-git clone https://github.com/<your gitHub Username>/GAAJU-MD
-cd GAAJU-MD
+git clone https://github.com/<your gitHub Username>/NEGO-TECH
+cd NEGO-TECH
 ```
 ```
 npm install && npm start
 ```
 ---
 
-- Note if npm throws error just exit from ubuntu terminal and login again then `cd GAAJU-MD && npm install`
+- Note if npm throws error just exit from ubuntu terminal and login again then `cd NEGO-TECH && npm install`
 
 
 ## License
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](https://github.com/Xchristech2/GAAJU-MD/blob/main/LICENSE) file for details.
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](https://github.com/Xnegotech1/NEGO-TECH/blob/main/LICENSE) file for details.
 
 ---
 
 ## Contributions
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Xchristech2/GAAJU-MD/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Xnegotech1/NEGO-TECH/issues).
 
 ---
 
 ## 🌟 Show your support
 
-If you like this project, please give it a [⭐️ star on GitHub](https://github.com/Xchristech2/GAAJU-MD)!
+If you like this project, please give it a [⭐️ star on GitHub](https://github.com/Xnegotech1/NEGO-TECH)!
 
 
 ## Credits
 
-| [![Chris Gaaju](https://github.com/Xchristech2.png?size=100)](https://github.com/Xchristech2) | [![WhiskeySockets](https://github.com/WhiskeySockets.png?size=100)](https://github.com/WhiskeySockets) |
+| [![Chris Gaaju](https://github.com/Xnegotech1.png?size=100)](https://github.com/Xnegotech1) | [![WhiskeySockets](https://github.com/WhiskeySockets.png?size=100)](https://github.com/WhiskeySockets) |
 | --- | --- 
-| [Chris Gaaju](https://github.com/Xchristech2) |[WhiskeySockets](https://github.com/WhiskeySockets) |
+| [Chris Gaaju](https://github.com/Xnegotech1) |[WhiskeySockets](https://github.com/WhiskeySockets) |
 
 ---
 

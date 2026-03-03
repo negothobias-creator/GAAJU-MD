@@ -1,6 +1,6 @@
 # Contributing
 
-We are open to, and grateful for, any contributions made by the community. By contributing to GAAJU-MD, you agree to abide by the [code of conduct](https://github.com/Xchristech2/GAAJU-MD/blob/main/CODE_OF_CONDUCT.md).
+We are open to, and grateful for, any contributions made by the community. By contributing to NEGO-TECH, you agree to abide by the [code of conduct](https://github.com/Xnegotech1/NEGO-TECH/blob/main/CODE_OF_CONDUCT.md).
 
 ## Code Style
 
@@ -16,4 +16,4 @@ Please update the tests to reflect your code changes. Pull requests will not be 
 
 ## Documentation
 
-Please update the [documentation](https://github.com/Xchristech2/GAAJU-MD#readme) accordingly so that there are no discrepancies between the App and the documentation.
+Please update the [documentation](https://github.com/Xnegotech1/NEGO-TECH#readme) accordingly so that there are no discrepancies between the App and the documentation.

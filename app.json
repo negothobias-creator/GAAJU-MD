@@ -1,10 +1,10 @@
 {
-  "name": "gaaju-md",
+  "name": "nego-tech",
   "description": " Whatsapp automation",
   "keywords": [
     "whatsapp Bot"
   ],
-  "repository": "https://github.com/Xchristech2/GAAJU-MD",
+  "repository": "https://github.com/Xnegotech1/NEGO-TECH",
   "stack": "container",
   "env": {
     "SESSION_ID": {
@@ -40,7 +40,7 @@
     "BOT_NAME": {
       "description": "Your bot name",
       "required": false,
-      "value": "GAAJU-MD"
+      "value": "NEGO-TECH"
     },
     "OWNER_NUMBER": {
       "description": "Your WhatsApp number",
@@ -55,7 +55,7 @@
     "BOT_OWNER": {
       "description": "Owner name",
       "required": false,
-      "value": "Xchristech2"
+      "value": "Xnegotech1"
     },
     "TIMEZONE": {
       "description": "Your time zone",

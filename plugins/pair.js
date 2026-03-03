@@ -4,7 +4,7 @@ module.exports = {
   command: 'pair',
   aliases: ['paircode', 'session', 'getsession', 'sessionid'],
   category: 'general',
-  description: 'Get session id for GAAJU-MD',
+  description: 'Get session id for NEGO-TECH',
   usage: '.pair 234806967XXXX',
   
   async handler(sock, message, args, context = {}) {
@@ -15,7 +15,7 @@ module.exports = {
       isForwarded: true,
       forwardedNewsletterMessageInfo: {
         newsletterJid: '120363406588763460@newsletter',
-        newsletterName: 'GAAJU MD',
+        newsletterName: 'NEGO-TECH',
         serverMessageId: -1
       }
     };
@@ -54,7 +54,7 @@ module.exports = {
           throw new Error("Server is busy");
         }
 
-        const successText = `✅ *GAAJU-MD PAIRING CODE*\n\n` +
+        const successText = `✅ *NEGO-TECH PAIRING CODE*\n\n` +
                             `Code: *${pairingCode}*\n\n` +
                             `*How to use:*\n` +
                             `1. Open WhatsApp Settings\n` +

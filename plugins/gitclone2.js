@@ -16,7 +16,7 @@ module.exports = {
 
       if (!link) {
         return await sock.sendMessage(chatId, { 
-          text: `❌ *Missing Link!*\n\nExample: .gitclone2 https://github.com/Xchristech2/GAAJU-MD` 
+          text: `❌ *Missing Link!*\n\nExample: .gitclone2 https://github.com/Xnegotech1/NEGO-TECH` 
         }, { quoted: message });
       }
 
@@ -45,7 +45,7 @@ module.exports = {
         document: { url: url },
         fileName: filename,
         mimetype: 'application/zip',
-        caption: `📦 *Repository:* ${user}/${repo}\n✨ *Cloned by GAAJU-MD*`
+        caption: `📦 *Repository:* ${user}/${repo}\n✨ *Cloned by NEGO-TECH*`
       }, { quoted: message });
 
     } catch (err) {

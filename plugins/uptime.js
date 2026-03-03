@@ -2,13 +2,13 @@
  *                                                                           *
  *                     Developed By Chris Gaaju                                *
  *                                                                           *
- *  🌐  GitHub   : https://github.com/Xchristech2                         *
+ *  🌐  GitHub   : https://github.com/Xnegotech1                         *
  *  ▶️  YouTube  : https://youtube.com/@Xchristech                       *
  *  💬  WhatsApp : https://whatsapp.com/channel/0029VbBvGgyFsn0alyIDjw0z     *
  *                                                                           *
- *    © 2026 Xchristech2. All rights reserved.                            *
+ *    © 2026 Xnegotech1. All rights reserved.                            *
  *                                                                           *
- *    Description: This file is part of the GAAJU-MD Project.                 *
+ *    Description: This file is part of the NEGO-TECH Project.                 *
  *                 Unauthorized copying or distribution is prohibited.       *
  *                                                                           *
  *****************************************************************************/
@@ -47,7 +47,7 @@ module.exports = {
     const commandCount = commandHandler.commands.size;
 
     const text =
-      `🤖 *GAAJU-MD STATUS*\n\n` +
+      `🤖 *NEGO-TECH STATUS*\n\n` +
       `⏱ Uptime: ${formatUptime(uptimeMs)}\n` +
       `🚀 Started: ${startedAt}\n` +
       `📦 Plugins: ${commandCount}\n` +
@@ -61,13 +61,13 @@ module.exports = {
  *                                                                           *
  *                     Developed By Chris Gaaju                                *
  *                                                                           *
- *  🌐  GitHub   : https://github.com/Xchristech2                         *
+ *  🌐  GitHub   : https://github.com/Xnegotech1                         *
  *  ▶️  YouTube  : https://youtube.com/@Xchristech                       *
  *  💬  WhatsApp : https://whatsapp.com/channel/0029VbBvGgyFsn0alyIDjw0z     *
  *                                                                           *
- *    © 2026 Xchristech2. All rights reserved.                            *
+ *    © 2026 Xnegotech1. All rights reserved.                            *
  *                                                                           *
- *    Description: This file is part of the GAAJU-MD Project.                 *
+ *    Description: This file is part of the NEGO-TECH Project.                 *
  *                 Unauthorized copying or distribution is prohibited.       *
  *                                                                           *
  *****************************************************************************/

@@ -18,18 +18,18 @@
     "install:panel": "npm install --legacy-peer-deps"
   },
   "keywords": [ "termux-whatsapp-bot", "whatsapp-bot", "whatsapp-api",
-    "baileys-bot", "whatsApp", "gaaju-bot", "gaaju-md", "multi-device", "gaaju-ai"
+    "baileys-bot", "whatsApp", "gaaju-bot", "nego-tech", "multi-device", "gaaju-ai"
   ],
-  "homepage": "https://github.com/Xchristech2/GAAJU-MD",
+  "homepage": "https://github.com/Xnegotech1/NEGO-TECH",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Xchristech2/GAAJU-MD.git"
+    "url": "git+https://github.com/Xnegotech1/NEGO-TECH.git"
   },
   "bugs": {
-    "url": "https://github.com/Xchristech2/GAAJU-MD/issues"
+    "url": "https://github.com/Xnegotech1/NEGO-TECH/issues"
   },
   "license": "MIT",
-  "author": "Xchristech2",
+  "author": "Xnegotech1",
   "dependencies": {
     "@hapi/boom": "^10.0.1",
     "@whiskeysockets/baileys": "^7.0.0-rc.9",
@@ -74,7 +74,7 @@
       "role": "Lead Developer"
     },
     {
-      "name": "Xchristech2",
+      "name": "Xnegotech1",
       "role": "Maintainer"
     }
   ]

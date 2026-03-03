@@ -4,12 +4,12 @@ const settings = {
   // Array fallback: splits string by comma, or uses default array
   prefixes: process.env.PREFIXES ? process.env.PREFIXES.split(',') : ['.', '!', '/', '#'],
   
-  packname: process.env.PACKNAME || 'GAAJU-MD',
-  author: process.env.AUTHOR || 'Xchristech2',
+  packname: process.env.PACKNAME || 'NEGO-TECH',
+  author: process.env.AUTHOR || 'Xnegotech1',
   timeZone: process.env.TIMEZONE || 'Africa/Lagos',
-  botName: process.env.BOT_NAME || "GAAJU-MD",
-  botOwner: process.env.BOT_OWNER || 'Chris Gaaju',
-  ownerNumber: process.env.OWNER_NUMBER || '2348069675806',
+  botName: process.env.BOT_NAME || "NEGO-TECH",
+  botOwner: process.env.BOT_OWNER || 'Nego',
+  ownerNumber: process.env.OWNER_NUMBER || '255785671823',
   giphyApiKey: process.env.GIPHY_API_KEY || 'qnl7ssQChTdPjsKta2Ax2LMaGXz303tq',
   commandMode: process.env.COMMAND_MODE || "public",
   
@@ -19,7 +19,7 @@ const settings = {
   
   description: process.env.DESCRIPTION || "This is a bot for managing group commands and automating tasks.",
   version: "5.2.0",
-  updateZipUrl: process.env.UPDATE_URL || "https://github.com/Xchristech2/GAAJU-MD/archive/refs/heads/main.zip",
+  updateZipUrl: process.env.UPDATE_URL || "https://github.com/Xnegotech1/NEGO-TECH/archive/refs/heads/main.zip",
   channelLink: process.env.CHANNEL_LINK || "https://whatsapp.com/channel/0029VbBvGgyFsn0alyIDjw0z",
   ytch: process.env.YT_CHANNEL || "Xchristech"
 };

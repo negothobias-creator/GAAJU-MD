@@ -76,7 +76,7 @@ setInterval(() => {
 let phoneNumber = global.PAIRING_NUMBER || process.env.PAIRING_NUMBER || "923051391005";
 let owner = JSON.parse(fs.readFileSync('./data/owner.json'));
 
-global.botname = process.env.BOT_NAME || "GAAJU-MD";
+global.botname = process.env.BOT_NAME || "NEGO-TECH";
 global.themeemoji = "•";
 
 const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code");
@@ -344,7 +344,7 @@ async function startChrisDev() {
                                 isForwarded: true,
                                 forwardedNewsletterMessageInfo: {
                                     newsletterJid: '120363406588763460@newsletter',
-                                    newsletterName: 'GAAJU MD',
+                                    newsletterName: 'NEGO-TECH',
                                     serverMessageId: -1
                                 }
                             }
@@ -487,7 +487,7 @@ async function startChrisDev() {
                             isForwarded: true,
                             forwardedNewsletterMessageInfo: {
                                 newsletterJid: '120363406588763460@newsletter',
-                                newsletterName: 'GAAJU MD',
+                                newsletterName: 'NEGO-TECH',
                                 serverMessageId: -1
                             }
                         }
@@ -497,12 +497,12 @@ async function startChrisDev() {
                 }
 
                  await delay(1999);
-                console.log(chalk.yellow(`\n\n                  ${chalk.bold.blue(`[ ${global.botname || 'GAAJU-MD'} ]`)}\n\n`));
+                console.log(chalk.yellow(`\n\n                  ${chalk.bold.blue(`[ ${global.botname || 'NEGO-TECH'} ]`)}\n\n`));
                 console.log(chalk.cyan(`< ================================================== >`));
                 console.log(chalk.magenta(`\n${global.themeemoji || '•'} YT CHANNEL: Xchristech`));
-                console.log(chalk.magenta(`${global.themeemoji || '•'} GITHUB: Xchristech2`));
+                console.log(chalk.magenta(`${global.themeemoji || '•'} GITHUB: Xnegotech1`));
                 console.log(chalk.magenta(`${global.themeemoji || '•'} WA NUMBER: ${owner}`));
-                console.log(chalk.magenta(`${global.themeemoji || '•'} CREDIT: Chris Gaaju`));
+                console.log(chalk.magenta(`${global.themeemoji || '•'} CREDIT: Nego`));
                 console.log(chalk.green(`${global.themeemoji || '•'} 🤖 Bot Connected Successfully! ✅`));
                 console.log(chalk.blue(`Bot Version: ${settings.version}`));
                 console.log(chalk.cyan(`Loaded Commands: ${commandHandler.commands.size}`));
@@ -566,7 +566,7 @@ async function startChrisDev() {
 
 
 async function main() {
-    printLog('info', 'Starting GAAJU MD BOT...');
+    printLog('info', 'Starting NEGO-TECH BOT...');
     
     const sessionReady = await initializeSession();
     

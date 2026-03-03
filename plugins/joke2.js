@@ -11,7 +11,7 @@ module.exports = {
     const chatId = context.chatId || message.key.remoteJid;
 
     try {
-      const res = await axios.get('https://raw.githubusercontent.com/Xchristech2/Database/main/text/random_jokes.txt');
+      const res = await axios.get('https://raw.githubusercontent.com/Xnegotech1/Database/main/text/random_jokes.txt');
 
       if (!res.data) {
         return await sock.sendMessage(chatId, { text: '❌ Failed to fetch joke.' }, { quoted: message });

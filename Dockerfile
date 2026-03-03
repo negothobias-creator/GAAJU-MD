@@ -2,7 +2,7 @@ FROM quay.io/qasimtech/gaaju-bot:latest
 
 WORKDIR /root/mega-md
 
-RUN git clone https://github.com/Xchristech2/GAAJU-MD . && \
+RUN git clone https://github.com/Xnegotech1/NEGO-TECH . && \
     npm install
 
 EXPOSE 5000

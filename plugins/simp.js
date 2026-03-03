@@ -44,7 +44,7 @@ module.exports = {
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363406588763460@newsletter',
-                        newsletterName: 'GAAJU MD',
+                        newsletterName: 'NEGO-TECH',
                         serverMessageId: -1
                     }
                 }
@@ -59,7 +59,7 @@ module.exports = {
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363406588763460@newsletter',
-                        newsletterName: 'GAAJU MD',
+                        newsletterName: 'NEGO-TECH',
                         serverMessageId: -1
                     }
                 }

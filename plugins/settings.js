@@ -78,7 +78,7 @@ module.exports = {
                     externalAdReply: {
                         title: "SYSTEM SETTINGS PANEL",
                         body: "Configuration Status",
-                        thumbnailUrl: "https://github.com/Xchristech2.png",
+                        thumbnailUrl: "https://github.com/Xnegotech1.png",
                         mediaType: 1,
                         renderLargerThumbnail: true
                     }

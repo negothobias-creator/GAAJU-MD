@@ -2,9 +2,9 @@ const store = require('../lib/lightweight_store');
 const axios = require('axios');
 
 const QUOTE_URLS = [
-  'https://raw.githubusercontent.com/Xchristech2/Islamic-Database/main/text/random_quotes.txt',
-  'https://raw.githubusercontent.com/Xchristech2/Islamic-Database/main/text/motivational_quotes.txt',
-  'https://raw.githubusercontent.com/Xchristech2/Islamic-Database/main/text/pickup_quotes.txt'
+  'https://raw.githubusercontent.com/Xnegotech1/Islamic-Database/main/text/random_quotes.txt',
+  'https://raw.githubusercontent.com/Xnegotech1/Islamic-Database/main/text/motivational_quotes.txt',
+  'https://raw.githubusercontent.com/Xnegotech1/Islamic-Database/main/text/pickup_quotes.txt'
 ];
 
 let cachedQuotes = [];
@@ -35,7 +35,7 @@ async function fetchQuotes() {
     if (allQuotes.length === 0) {
       // Fallback quotes if fetch fails
       return [
-        '💎 By GAAJU-MD - Your WhatsApp Bot',
+        '💎 By NEGO-TECH - Your WhatsApp Bot',
         '🌟 Stay positive, work hard, make it happen.',
         '✨ Believe in yourself and all that you are.',
         '🚀 The future belongs to those who believe in the beauty of their dreams.',
@@ -51,12 +51,12 @@ async function fetchQuotes() {
     
     return allQuotes;
   } catch (error) {
-    return cachedQuotes.length > 0 ? cachedQuotes : ['💎 By GAAJU-MD - Your WhatsApp Bot'];
+    return cachedQuotes.length > 0 ? cachedQuotes : ['💎 By NEGO-TECH - Your WhatsApp Bot'];
   }
 }
 
 function getRandomQuote(quotes) {
-  if (!quotes || quotes.length === 0) return '💎 By GAAJU-MD';
+  if (!quotes || quotes.length === 0) return '💎 By NEGO-TECH';
   return quotes[Math.floor(Math.random() * quotes.length)];
 }
 
@@ -72,7 +72,7 @@ async function updateAutoBio(sock) {
     if (autoBioSettings.customBio) {
       bio = autoBioSettings.customBio.replace('{quote}', randomQuote);
     } else {
-      bio = `${randomQuote}\n\n💎 GAAJU-MD`;
+      bio = `${randomQuote}\n\n💎 NEGO-TECH`;
     }
     if (bio.length > 139) {
       bio = bio.substring(0, 136) + '...';

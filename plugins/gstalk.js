@@ -12,7 +12,7 @@ module.exports = {
 
     if (!args.length) {
       return await sock.sendMessage(chatId, {
-        text: '*Please provide a GitHub username.*\nExample: .github Xchristech2'
+        text: '*Please provide a GitHub username.*\nExample: .github Xnegotech1'
       }, { quoted: message });
     }
 

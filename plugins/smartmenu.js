@@ -77,7 +77,7 @@ module.exports = {
 
       let menuText = `${menuEmoji} *${settings.botName || 'MEGA-MD'}* ${menuEmoji}\n\n`;
       menuText += `┏━━━━━━━━━━━━━━━━┓\n`;
-      menuText += `┃ 📱 *Bot:* ${settings.botName || 'GAAJU-MD'}\n`;
+      menuText += `┃ 📱 *Bot:* ${settings.botName || 'NEGO-TECH'}\n`;
       menuText += `┃ 🔖 *Version:* ${settings.version || '1.0.0'}\n`;
       menuText += `┃ 👤 *Owner:* ${settings.botOwner || 'Unknown'}\n`;
       menuText += `┃ ⏰ *Time:* ${formatTime()}\n`;
@@ -139,7 +139,7 @@ module.exports = {
           isForwarded: true,
           forwardedNewsletterMessageInfo: {
             newsletterJid: '120363406588763460@newsletter',
-            newsletterName: settings.botName || 'GAAJU MD',
+            newsletterName: settings.botName || 'NEGO-TECH',
             serverMessageId: -1
           }
         }

@@ -88,7 +88,7 @@ module.exports = {
             {
               video: { url },
               mimetype: 'video/mp4',
-              caption: '📥 *Downloaded by GAAJU-MD*'
+              caption: '📥 *Downloaded by NEGO-TECH*'
             },
             { quoted: message }
           );
@@ -97,7 +97,7 @@ module.exports = {
             chatId,
             {
               image: { url },
-              caption: '📥 *Downloaded by GAAJU-MD*'
+              caption: '📥 *Downloaded by NEGO-TECH*'
             },
             { quoted: message }
           );

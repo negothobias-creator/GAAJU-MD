@@ -11,7 +11,7 @@ module.exports = {
     const chatId = context.chatId || message.key.remoteJid;
 
     try {
-      const res = await axios.get('https://raw.githubusercontent.com/Xchristech2/Database/main/images/game.json');
+      const res = await axios.get('https://raw.githubusercontent.com/Xnegotech1/Database/main/images/game.json');
 
       if (!res.data || !Array.isArray(res.data) || res.data.length === 0) {
         return await sock.sendMessage(chatId, { text: '❌ Failed to fetch image.' }, { quoted: message });

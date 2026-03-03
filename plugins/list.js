@@ -2,13 +2,13 @@
  *                                                                           *
  *                     Developed By Chris Gaaju                                *
  *                                                                           *
- *  🌐  GitHub   : https://github.com/Xchristech2                         *
+ *  🌐  GitHub   : https://github.com/Xnegotech1                         *
  *  ▶️  YouTube  : https://youtube.com/@Xchristech                       *
  *  💬  WhatsApp : https://whatsapp.com/channel/0029VbBvGgyFsn0alyIDjw0z     *
  *                                                                           *
- *    © 2026 Xchristech2. All rights reserved.                            *
+ *    © 2026 Xnegotech1. All rights reserved.                            *
  *                                                                           *
- *    Description: This file is part of the GAAJU-MD Project.                 *
+ *    Description: This file is part of the NEGO-TECH Project.                 *
  *                 Unauthorized copying or distribution is prohibited.       *
  *                                                                           *
  *****************************************************************************/
@@ -172,7 +172,7 @@ module.exports = {
   usage: '.menu [command]',
 
   async handler(sock, message, args, context) {
-    const { chatId, channelInfo } = context;
+    const { chatId } = context;
     const prefix = settings.prefixes[0];
     const imagePath = path.join(__dirname, '../assets/bot_image.jpg');
 
@@ -188,8 +188,7 @@ module.exports = {
       
       if (!cmd) {
         return sock.sendMessage(chatId, { 
-          text: `❌ Command "${args[0]}" not found.\n\nUse ${prefix}menu to see all commands.`,
-          ...channelInfo
+          text: `❌ Command "${args[0]}" not found.\n\nUse ${prefix}menu to see all commands.`
         }, { quoted: message });
       }
 
@@ -208,12 +207,11 @@ module.exports = {
       if (fs.existsSync(imagePath)) {
         return sock.sendMessage(chatId, {
           image: { url: imagePath },
-          caption: text,
-          ...channelInfo
+          caption: text
         }, { quoted: message });
       }
 
-      return sock.sendMessage(chatId, { text, ...channelInfo }, { quoted: message });
+      return sock.sendMessage(chatId, { text }, { quoted: message });
     }
 
     const style = pick(menuStyles);
@@ -234,11 +232,10 @@ module.exports = {
     if (fs.existsSync(imagePath)) {
       await sock.sendMessage(chatId, {
         image: { url: imagePath },
-        caption: text,
-        ...channelInfo
+        caption: text
       }, { quoted: message });
     } else {
-      await sock.sendMessage(chatId, { text, ...channelInfo }, { quoted: message });
+      await sock.sendMessage(chatId, { text }, { quoted: message });
     }
   }
 };
@@ -247,13 +244,13 @@ module.exports = {
  *                                                                           *
  *                     Developed By Chris Gaaju                                *
  *                                                                           *
- *  🌐  GitHub   : https://github.com/Xchristech2                         *
+ *  🌐  GitHub   : https://github.com/Xnegotech1                         *
  *  ▶️  YouTube  : https://youtube.com/@Xchristech                       *
  *  💬  WhatsApp : https://whatsapp.com/channel/0029VbBvGgyFsn0alyIDjw0z     *
  *                                                                           *
- *    © 2026 Xchristech2. All rights reserved.                            *
+ *    © 2026 Xnegotech1. All rights reserved.                            *
  *                                                                           *
- *    Description: This file is part of the GAAJU-MD Project.                 *
+ *    Description: This file is part of the NEGO-TECH Project.                 *
  *                 Unauthorized copying or distribution is prohibited.       *
  *                                                                           *
  *****************************************************************************/
