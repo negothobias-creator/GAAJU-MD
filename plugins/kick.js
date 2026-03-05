@@ -1,3 +1,5 @@
+const { getSuccessWord, getActionEmoji } = require('../lib/funEmojis');
+
 module.exports = {
     command: 'kick',
     aliases: ['remove', 'fire'],
@@ -113,7 +115,7 @@ module.exports = {
             }));
             
             await sock.sendMessage(chatId, { 
-                text: `🚫 *User${usersToKick.length > 1 ? 's' : ''} Removed*\n\n${usernames.join(', ')} has been kicked from the group!`,
+                text: `${getActionEmoji('kick')} *User${usersToKick.length > 1 ? 's' : ''} Removed*\n\n${usernames.join(', ')} has been kicked from the group!\n${getSuccessWord()}`,
                 mentions: usersToKick
             }, { quoted: message });
         } catch (error) {

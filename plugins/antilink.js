@@ -1,6 +1,55 @@
 const store = require('../lib/lightweight_store');
 const isOwnerOrSudo = require('../lib/isOwner');
 const isAdmin = require('../lib/isAdmin');
+const fs = require('fs');
+const path = require('path');
+
+const MONGO_URL = process.env.MONGO_URL;
+const POSTGRES_URL = process.env.POSTGRES_URL;
+const MYSQL_URL = process.env.MYSQL_URL;
+const SQLITE_URL = process.env.DB_URL;
+const HAS_DB = !!(MONGO_URL || POSTGRES_URL || MYSQL_URL || SQLITE_URL);
+
+const databaseDir = path.join(process.cwd(), 'data');
+const antilinkWarningsPath = path.join(databaseDir, 'antilinkWarnings.json');
+
+// Initialize warnings file
+function initializeWarningsFile() {
+  if (!HAS_DB) {
+    if (!fs.existsSync(databaseDir)) {
+      fs.mkdirSync(databaseDir, { recursive: true });
+    }
+    
+    if (!fs.existsSync(antilinkWarningsPath)) {
+      fs.writeFileSync(antilinkWarningsPath, JSON.stringify({}), 'utf8');
+    }
+  }
+}
+
+// Get antilink warnings
+async function getAntilinkWarnings() {
+  if (HAS_DB) {
+    const warnings = await store.getSetting('global', 'antilinkWarnings');
+    return warnings || {};
+  } else {
+    try {
+      initializeWarningsFile();
+      return JSON.parse(fs.readFileSync(antilinkWarningsPath, 'utf8'));
+    } catch (error) {
+      return {};
+    }
+  }
+}
+
+// Save antilink warnings
+async function saveAntilinkWarnings(warnings) {
+  if (HAS_DB) {
+    await store.saveSetting('global', 'antilinkWarnings', warnings);
+  } else {
+    initializeWarningsFile();
+    fs.writeFileSync(antilinkWarningsPath, JSON.stringify(warnings, null, 2));
+  }
+}
 
 async function setAntilink(chatId, type, action) {
     try {
@@ -55,7 +104,7 @@ async function handleLinkDetection(sock, chatId, message, userMessage, senderId)
             if (isSenderAdmin) return;
         } catch (e) {}
 
-        const action = config.action || 'delete';
+        const action = config.action || 'warn';
         let shouldAct = false;
         let linkType = '';
 
@@ -85,7 +134,8 @@ async function handleLinkDetection(sock, chatId, message, userMessage, senderId)
         const messageId = message.key.id;
         const participant = message.key.participant || senderId;
 
-        if (action === 'delete' || action === 'kick') {
+        // Delete the message
+        if (action === 'delete' || action === 'warn' || action === 'kick') {
             try {
                 await sock.sendMessage(chatId, {
                     delete: { 
@@ -100,18 +150,35 @@ async function handleLinkDetection(sock, chatId, message, userMessage, senderId)
             }
         }
 
-        if (action === 'warn' || action === 'delete') {
-            await sock.sendMessage(chatId, {
-                text: `⚠️ *Antilink Warning*\n\n@${senderId.split('@')[0]}, posting ${linkType} links is not allowed!`,
-                mentions: [senderId]
-            });
-        }
+        // Get current warnings
+        let warnings = await getAntilinkWarnings();
+        if (!warnings[chatId]) warnings[chatId] = {};
+        if (!warnings[chatId][senderId]) warnings[chatId][senderId] = 0;
 
-        if (action === 'kick') {
+        warnings[chatId][senderId]++;
+        const currentWarnings = warnings[chatId][senderId];
+        await saveAntilinkWarnings(warnings);
+
+        // Tag user and send warning message
+        const warningText = `@${senderId.split('@')[0]} ${linkType.toLowerCase()} links not allowed\n\n⚠️ *Warning: ${currentWarnings}/3*`;
+
+        await sock.sendMessage(chatId, {
+            text: warningText,
+            mentions: [senderId]
+        });
+
+        // Check if user should be kicked (3 warnings)
+        if (currentWarnings >= 3) {
             try {
+                await new Promise(resolve => setTimeout(resolve, 500));
                 await sock.groupParticipantsUpdate(chatId, [senderId], 'remove');
+                
+                // Clear warnings for this user
+                delete warnings[chatId][senderId];
+                await saveAntilinkWarnings(warnings);
+
                 await sock.sendMessage(chatId, {
-                    text: `🚫 @${senderId.split('@')[0]} has been removed for posting ${linkType} links.`,
+                    text: `🚫 *Auto-Removed*\n\n@${senderId.split('@')[0]} has been removed from the group for sending links (3 warnings reached).`,
                     mentions: [senderId]
                 });
             } catch (error) {
@@ -131,10 +198,11 @@ module.exports = {
     command: 'antilink',
     aliases: ['alink', 'linkblock'],
     category: 'admin',
-    description: 'Prevent users from sending links in the group',
-    usage: '.antilink <on|off|set>',
+    description: 'Prevent users from sending links in the group (3 warnings = auto-kick)',
+    usage: '.antilink <on|off|status>',
     groupOnly: true,
     adminOnly: true,
+    cooldown: 2000,
 
     async handler(sock, message, args, context = {}) {
         const chatId = context.chatId || message.key.remoteJid;
@@ -144,20 +212,21 @@ module.exports = {
             const config = await getAntilink(chatId, 'on');
             await sock.sendMessage(chatId, {
                 text: `*🔗 ANTILINK SETUP*\n\n` +
-                      `*Current Status:* ${config?.enabled ? '✅ Enabled' : '❌ Disabled'}\n` +
-                      `*Current Action:* ${config?.action || 'Not set'}\n\n` +
+                      `*Current Status:* ${config?.enabled ? '✅ Enabled' : '❌ Disabled'}\n\n` +
                       `*Commands:*\n` +
-                      `• \`.antilink on\` - Enable antilink\n` +
+                      `• \`.antilink on\` - Enable antilink with warnings\n` +
                       `• \`.antilink off\` - Disable antilink\n` +
-                      `• \`.antilink set delete\` - Delete link messages\n` +
-                      `• \`.antilink set kick\` - Kick users who send links\n` +
-                      `• \`.antilink set warn\` - Warn users only\n\n` +
+                      `• \`.antilink status\` - Show antilink status\n\n` +
+                      `*How it works:*\n` +
+                      `1️⃣ First link sent → User tagged + "links not allowed" message\n` +
+                      `2️⃣ Second link → User receives 2/3 warnings\n` +
+                      `3️⃣ Third link → User is automatically removed from group\n\n` +
                       `*Protected Links:*\n` +
                       `• WhatsApp Groups\n` +
                       `• WhatsApp Channels\n` +
                       `• Telegram\n` +
                       `• All other links\n\n` +
-                      `*Note:* Admins, Owner, and Sudo users are exempt.`
+                      `*Exempt:* Admins, Owner, and Sudo users are exempt.`
             }, { quoted: message });
             return;
         }
@@ -171,9 +240,9 @@ module.exports = {
                     }, { quoted: message });
                     return;
                 }
-                const result = await setAntilink(chatId, 'on', 'delete');
+                const result = await setAntilink(chatId, 'on', 'warn');
                 await sock.sendMessage(chatId, {
-                    text: result ? '✅ *Antilink enabled successfully!*\n\nDefault action: Delete messages\n\n*Exempt:* Admins, Owner, Sudo users' : '❌ *Failed to enable antilink*'
+                    text: result ? `✅ *Antilink enabled successfully!*\n\n🔔 *Warning System Active:*\n• 1st link: Warning (1/3)\n• 2nd link: Warning (2/3)\n• 3rd link: User removed from group\n\n*Exempt:* Admins, Owner, Sudo users` : '❌ *Failed to enable antilink*'
                 }, { quoted: message });
                 break;
 
@@ -184,47 +253,23 @@ module.exports = {
                 }, { quoted: message });
                 break;
 
-            case 'set':
-                if (args.length < 2) {
-                    await sock.sendMessage(chatId, {
-                        text: '❌ *Please specify an action*\n\nUsage: `.antilink set delete | kick | warn`'
-                    }, { quoted: message });
-                    return;
-                }
-                const setAction = args[1].toLowerCase();
-                if (!['delete', 'kick', 'warn'].includes(setAction)) {
-                    await sock.sendMessage(chatId, {
-                        text: '❌ *Invalid action*\n\nChoose: delete, kick, or warn'
-                    }, { quoted: message });
-                    return;
-                }
-                const setResult = await setAntilink(chatId, 'on', setAction);
-                
-                const actionDescriptions = {
-                    delete: 'Delete link messages and warn users',
-                    kick: 'Delete messages and remove users',
-                    warn: 'Only send warning messages'
-                };
-                
-                await sock.sendMessage(chatId, {
-                    text: setResult 
-                        ? `✅ *Antilink action set to: ${setAction}*\n\n${actionDescriptions[setAction]}\n\n*Exempt:* Admins, Owner, Sudo users`
-                        : '❌ *Failed to set antilink action*'
-                }, { quoted: message });
-                break;
-
             case 'status':
             case 'get':
                 const status = await getAntilink(chatId, 'on');
+                let warnings = await getAntilinkWarnings();
+                const chatWarnings = warnings[chatId] || {};
+                const warningCount = Object.keys(chatWarnings).length;
+
                 await sock.sendMessage(chatId, {
                     text: `*🔗 ANTILINK STATUS*\n\n` +
                           `*Status:* ${status?.enabled ? '✅ Enabled' : '❌ Disabled'}\n` +
-                          `*Action:* ${status?.action || 'Not set'}\n\n` +
-                          `*What happens when links are detected:*\n` +
-                          `${status?.action === 'delete' ? '• Message is deleted\n• User gets warning' : ''}` +
-                          `${status?.action === 'kick' ? '• Message is deleted\n• User is removed from group' : ''}` +
-                          `${status?.action === 'warn' ? '• User gets warning\n• Message stays' : ''}\n\n` +
-                          `*Exempt:* Admins, Owner, Sudo users`
+                          `*Users with Warnings:* ${warningCount}\n\n` +
+                          `*How it Works:*\n` +
+                          `• 1st link → User tagged + "links not allowed"\n` +
+                          `• 2nd link → Warning count increases (2/3)\n` +
+                          `• 3rd link → User removed from group\n\n` +
+                          `*Exempt:* Admins, Owner, Sudo users\n\n` +
+                          `*Storage:* ${HAS_DB ? 'Database' : 'File System (antilinkWarnings.json)'}`
                 }, { quoted: message });
                 break;
 

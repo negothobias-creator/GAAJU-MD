@@ -1,0 +1,9 @@
+{
+  "mainOwner": null,
+  "authorizedUsers": [],
+  "restartPin": "0000",
+  "securityLog": [],
+  "failedAttempts": {},
+  "lockdownMode": false,
+  "blacklistedUsers": []
+}

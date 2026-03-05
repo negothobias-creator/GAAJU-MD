@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const store = require('../lib/lightweight_store');
+const { getSuccessWord, getActionEmoji } = require('../lib/funEmojis');
 
 const MONGO_URL = process.env.MONGO_URL;
 const POSTGRES_URL = process.env.POSTGRES_URL;
@@ -88,11 +89,12 @@ module.exports = {
         warnings[chatId][userToWarn]++;
         await saveWarnings(warnings);
 
-        const warningMessage = `*『 WARNING ALERT 』*\n\n` +
+        const warningMessage = `${getActionEmoji('warn')} *『 WARNING ALERT 』*\n\n` +
           `👤 *Warned User:* @${userToWarn.split('@')[0]}\n` +
           `⚠️ *Warning Count:* ${warnings[chatId][userToWarn]}/3\n` +
           `👑 *Warned By:* @${senderId.split('@')[0]}\n` +
-          `🗄️ *Storage:* ${HAS_DB ? 'Database' : 'File System'}\n\n` +
+          `🗄️ *Storage:* ${HAS_DB ? 'Database' : 'File System'}\n` +
+          `${getSuccessWord()}\n\n` +
           `📅 *Date:* ${new Date().toLocaleString()}`;
 
         await sock.sendMessage(chatId, { 
@@ -108,8 +110,8 @@ module.exports = {
           delete warnings[chatId][userToWarn];
           await saveWarnings(warnings);
           
-          const kickMessage = `*『 AUTO-KICK 』*\n\n` +
-            `@${userToWarn.split('@')[0]} has been removed from the group after receiving 3 warnings! ⚠️`;
+          const kickMessage = `${getActionEmoji('kick')} *『 AUTO-KICK 』*\n\n` +
+            `@${userToWarn.split('@')[0]} has been removed from the group after receiving 3 warnings! ⚠️\n${getSuccessWord()}`;
 
           await sock.sendMessage(chatId, { 
             text: kickMessage,

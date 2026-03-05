@@ -67,8 +67,6 @@ module.exports = {
       const compliment =
         compliments[Math.floor(Math.random() * compliments.length)];
 
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
       await sock.sendMessage(chatId, {
         text: `Hey @${userToCompliment.split('@')[0]}, ${compliment}`,
         mentions: [userToCompliment]

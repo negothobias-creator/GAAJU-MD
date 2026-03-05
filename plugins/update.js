@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const settings = require('../settings');
+const { verifyRestartAuth, logSecurityEvent } = require('../lib/security');
 
 function run(cmd) {
   return new Promise((resolve, reject) => {
@@ -179,15 +180,59 @@ module.exports = {
   aliases: ['upgrade', 'restart'],
   category: 'owner',
   description: 'Update bot from git or zip without stopping',
-  usage: '.update [zip_url]',
+  usage: '.update <pin> [zip_url]',
   ownerOnly: true,
+  cooldown: 3000,
   
   async handler(sock, message, args, context) {
-    const { chatId, channelInfo } = context;
+    const { chatId, channelInfo, senderId } = context;
     
+    // Security: Require PIN for restart
+    if (!args[0]) {
+      await sock.sendMessage(chatId, { 
+        text: '🔒 *Security Required*\n\nPlease provide the restart PIN to update the bot.\n\nUsage: `.update <pin>`',
+        ...channelInfo
+      }, { quoted: message });
+      return;
+    }
+
+    const providedPin = args[0];
+    const zipUrl = args[1] || null;
+
+    // Verify PIN
+    const authResult = verifyRestartAuth(senderId, providedPin);
+    
+    if (!authResult.success) {
+      let errorMsg = '❌ *Authentication Failed*\n\n';
+      
+      switch (authResult.reason) {
+        case 'INVALID_PIN':
+          errorMsg += `Invalid PIN provided.\n\n⚠️ Attempts remaining: ${authResult.attemptsLeft}`;
+          break;
+        case 'RATE_LIMITED':
+          errorMsg += `Too many failed attempts. Please wait ${authResult.remainingTime} seconds.`;
+          break;
+        case 'LOCKDOWN_MODE':
+          errorMsg += 'Bot is in lockdown mode. Only main owner can restart.';
+          break;
+        case 'BLACKLISTED':
+          errorMsg += 'You are blacklisted and cannot restart the bot.';
+          break;
+        default:
+          errorMsg += 'Authentication denied.';
+      }
+      
+      await sock.sendMessage(chatId, { 
+        text: errorMsg,
+        ...channelInfo
+      }, { quoted: message });
+      return;
+    }
+
+    // PIN verified, proceed with update
     try {
       await sock.sendMessage(chatId, { 
-        text: '🔄 Updating the bot, please wait…',
+        text: '🔓 PIN verified! 🔄 Updating the bot, please wait…',
         ...channelInfo
       }, { quoted: message });
       
@@ -219,8 +264,7 @@ module.exports = {
         
         await run('npm install --no-audit --no-fund');
       } else {
-        const zipOverride = args[0] || null;
-        const { copiedFiles } = await updateViaZip(sock, chatId, message, zipOverride);
+        const { copiedFiles } = await updateViaZip(sock, chatId, message, zipUrl);
         
         changesSummary = `✅ Updated from ZIP!\n\n`;
         changesSummary += `📁 Files updated: ${copiedFiles.length}\n\n`;
@@ -241,6 +285,8 @@ module.exports = {
         changesSummary += `\n\n🔖 Version: ${v}`;
       } catch {}
       
+      logSecurityEvent('UPDATE_RESTART', senderId, 'Bot restart initiated', 'SUCCESS');
+      
       await sock.sendMessage(chatId, { 
         text: changesSummary + '\n\n♻️ Restarting bot...',
         ...channelInfo
@@ -251,6 +297,8 @@ module.exports = {
       
     } catch (err) {
       console.error('Update failed:', err);
+      logSecurityEvent('UPDATE_RESTART', senderId, 'Update failed: ' + err.message, 'FAILED');
+      
       await sock.sendMessage(chatId, { 
         text: `❌ Update failed:\n${String(err.message || err)}`,
         ...channelInfo
