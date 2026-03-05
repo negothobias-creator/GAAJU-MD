@@ -8,6 +8,8 @@ module.exports = {
   category: 'games',
   description: 'Start a trivia game or answer the question',
   usage: '.trivia [answer]',
+  groupOnly: true,
+  cooldown: 5000,
   
   async handler(sock, message, args, context) {
     const { chatId, channelInfo } = context;

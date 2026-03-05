@@ -4,6 +4,8 @@ module.exports = {
   category: 'fun',
   description: 'Ask the magic 8-ball a question',
   usage: '.8ball Will I be rich?',
+  groupOnly: true,
+  cooldown: 3000,
 
   async handler(sock, message, args, context = {}) {
     const chatId = context.chatId || message.key.remoteJid;

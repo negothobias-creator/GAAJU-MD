@@ -46,6 +46,8 @@ module.exports = {
     category: 'games',
     description: 'Play hangman word guessing game',
     usage: '.hangman to start, then .guess <letter>',
+    groupOnly: true,
+    cooldown: 5000,
 
     async handler(sock, message, args, context = {}) {
         const chatId = context.chatId || message.key.remoteJid;
