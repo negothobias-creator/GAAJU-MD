@@ -34,22 +34,34 @@ module.exports = {
 
       const toKick = participants.filter(p => {
         const isAdminFlag = p.admin === 'admin' || p.admin === 'superadmin';
-        const jid = p.id || p.lid || p.phoneNumber || '';
+        const jid = p.id || p.jid || p.lid || p.phoneNumber || '';
         // don't kick admins or the bot itself
         const isBot = (jid === botId || jid === botLid || jid.includes(botId.split('@')[0] || ''));
         return !isAdminFlag && !isBot;
-      }).map(p => p.id || p.lid || p.phoneNumber).filter(Boolean);
+      }).map(p => p.id || p.jid || p.lid || p.phoneNumber).filter(Boolean);
 
       if (toKick.length === 0) {
         await sock.sendMessage(chatId, { text: 'ℹ️ No non-admin members to remove.' }, { quoted: message });
         return;
       }
 
-      // remove in chunks (if necessary)
-      await sock.groupParticipantsUpdate(chatId, toKick, 'remove');
+      // remove in chunks (to avoid rate limits or size limits)
+      const CHUNK = 50;
+      let removed = 0;
+      for (let i = 0; i < toKick.length; i += CHUNK) {
+        const chunk = toKick.slice(i, i + CHUNK);
+        try {
+          await sock.groupParticipantsUpdate(chatId, chunk, 'remove');
+          removed += chunk.length;
+          // small pause between chunks
+          await new Promise(r => setTimeout(r, 500));
+        } catch (e) {
+          console.error('kickall chunk error:', e.message);
+        }
+      }
 
       const mentions = toKick.map(j => j);
-      await sock.sendMessage(chatId, { text: `🚫 Removed ${toKick.length} member(s).`, mentions }, { quoted: message });
+      await sock.sendMessage(chatId, { text: `🚫 Removed ${removed} member(s).`, mentions }, { quoted: message });
     } catch (err) {
       console.error('kickall error:', err);
       await sock.sendMessage(chatId, { text: '❌ Failed to remove members. Check bot permissions.' }, { quoted: message });

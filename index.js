@@ -473,6 +473,8 @@ async function startChrisDev() {
 
                 try {
                     const botNumber = ChrisDev.user.id.split(':')[0] + '@s.whatsapp.net';
+                    // store bot's own JID globally so other modules can reference it
+                    global.botId = botNumber;
                     const ghostStatus = (ghostMode && ghostMode.enabled) ? '\n👻 Stealth Mode: ACTIVE' : '';
                     
                         await ChrisDev.sendMessage(botNumber, {

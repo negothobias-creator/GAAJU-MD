@@ -89,7 +89,7 @@ async function handleAntiChannelCommand(sock, chatId, message, match) {
         const status = config?.enabled ? 'Enabled' : 'Disabled';
         const action = config?.action || 'warn';
         return sock.sendMessage(chatId, {
-            text: `*ANTICHANNEL SETUP*\n\nStatus: ${status}\nAction: ${action}\n\n*.antichannel on*\nTurn on antichannel\n\n*.antichannel off*\nDisables antichannel in this group\n\n*.antichannel set <action>*\nSet action: warn/delete/kick\n\nStorage: ${HAS_DB ? 'Database' : 'File System'}`
+            text: `*ANTICHANNEL SETUP*\n\nStatus: ${status}\nAction: ${action}\n\n*.antichannel on*\nTurn on antichannel\n\n*.antichannel off*\nDisables antichannel in this group\n\n*.antichannel set <action>*\nSet action: warn/delete/kick\n\n*.antichannel reset*\nClear configuration and warnings\n\nStorage: ${HAS_DB ? 'Database' : 'File System'}`
         }, { quoted: message });
     }
 
@@ -109,6 +109,15 @@ async function handleAntiChannelCommand(sock, chatId, message, match) {
         }
         await setAntiChannel(chatId, false);
         return sock.sendMessage(chatId, { text: '*AntiChannel has been disabled for this group*' }, { quoted: message } );
+    }
+    
+    if (match === 'reset') {
+        // clear settings and warnings so the command can be re‑configured
+        await setAntiChannel(chatId, false);
+        try {
+            await store.saveSetting(chatId, 'antichannel_warnings', {});
+        } catch (_) {}
+        return sock.sendMessage(chatId, { text: '*AntiChannel settings and warning counts have been reset for this group*' }, { quoted: message });
     }
 
     if (match.startsWith('set')) {
@@ -194,7 +203,7 @@ module.exports = {
   aliases: ['achannel', 'antich'],
   category: 'group',
   description: 'Manage anti-channel behavior',
-  usage: '.antichannel <on|off|status|set action>',
+  usage: '.antichannel <on|off|status|set action|reset>',
 
   async handler(sock, message, args, context = {}) {
     const chatId = context.chatId || message.key.remoteJid;
@@ -205,7 +214,7 @@ module.exports = {
       return;
     }
 
-    if (sub === 'on' || sub === 'off' || sub.startsWith('set')) {
+    if (sub === 'on' || sub === 'off' || sub === 'reset' || sub.startsWith('set')) {
       await handleAntiChannelCommand(sock, chatId, message, sub + (args[1] ? ' ' + args[1] : ''));
       return;
     }

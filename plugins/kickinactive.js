@@ -77,7 +77,7 @@ setTimeout(() => {
 
 module.exports = {
   command: 'kickinactive',
-  aliases: ['kickidle', 'kickinactiveusers'],
+  aliases: ['kickidle', 'kickinactiveusers', 'kickinactives'],
   category: 'admin',
   description: 'Kick users inactive for given days',
   usage: '.kickinactive <days>',
@@ -98,11 +98,16 @@ module.exports = {
     }
 
     try {
+      // only run in groups
+      if (!chatId || !chatId.endsWith('@g.us')) {
+        await sock.sendMessage(chatId, { text: '❌ This command works only in groups.' }, { quoted: message });
+        return;
+      }
       // Check if bot is admin
       const metadata = await sock.groupMetadata(chatId);
       const botJid = sock.user?.id || '';
-      const isBotAdmin = metadata.participants.some(p => 
-        p.id === botJid && (p.admin === 'admin' || p.admin === 'superadmin')
+      const isBotAdmin = (metadata.participants || []).some(p => 
+        (p.id || p.jid) === botJid && (p.admin === 'admin' || p.admin === 'superadmin')
       );
 
       if (!isBotAdmin) {

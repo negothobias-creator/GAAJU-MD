@@ -11,18 +11,41 @@ const HAS_DB = !!(MONGO_URL || POSTGRES_URL || MYSQL_URL || SQLITE_URL);
 const bannedFilePath = './data/banned.json';
 
 async function getBannedUsers() {
+    let list = [];
+
     if (HAS_DB) {
         const banned = await store.getSetting('global', 'banned');
-        return banned || [];
+        list = banned || [];
     } else {
         if (fs.existsSync(bannedFilePath)) {
-            return JSON.parse(fs.readFileSync(bannedFilePath));
+            list = JSON.parse(fs.readFileSync(bannedFilePath));
         }
-        return [];
     }
+
+    // remove bot id if protection enabled
+    try {
+        const protect = await store.getSetting('global', 'banProtect');
+        const botId = global.botId || process.env.BOT_ID || '';
+        if (protect && protect.enabled && botId) {
+            list = list.filter(u => u !== botId);
+        }
+    } catch (e) {
+        // ignore
+    }
+
+    return list;
 }
 
 async function saveBannedUsers(bannedUsers) {
+    // if protection is on, make sure botId never gets added
+    try {
+        const protect = await store.getSetting('global', 'banProtect');
+        const botId = global.botId || process.env.BOT_ID || '';
+        if (protect && protect.enabled && botId) {
+            bannedUsers = bannedUsers.filter(u => u !== botId);
+        }
+    } catch (e) {}
+
     if (HAS_DB) {
         await store.saveSetting('global', 'banned', bannedUsers);
     } else {
